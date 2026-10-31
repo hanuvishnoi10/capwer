@@ -1,45 +1,10 @@
-# Capwer — Next-Gen Undetected Stealth Workspace & Utility Engine
+# Capwer — Tool Overlay
 
-Inspired by high-performance developer utilities and stealth platforms (such as **Ofradr** and **Evadus**), **Capwer** is an ultra-low latency, zero-trace desktop utility website crafted with bespoke modern styling, zero AI slop, and tactile interactive animations.
+Minimalist, high-performance portal for **Capwer**.
 
----
-
-## 🌸 The Mascot & Logo
-The official logo features **a street-smart botanical flower wearing a tilted snapback cap**, complete with:
-- Curved cyan visor with high-gloss highlights
-- Embroidered emblem and stitch lines
-- Interactive hover physics (hovering tips the cap and animates the flower petals)
-- Built-in live status pulse indicator
-
----
-
-## ⚡ Core Sections & Features
-1. **Interactive Ghost Overlay Simulator**:
-   - Compare **Observer View** (what Zoom, Teams, Safe Exam Browser, or OBS records — 100% clean screen) vs. **Operator View** (your transparent private HUD).
-   - Real-time opacity slider.
-   - Panic Killswitch (`Ctrl + B` or `Esc`) that purges memory and HUD in < 400 microseconds.
-2. **Interactive Diagnostic Suite**:
-   - Live audit simulator testing BitBlt evasion, Ring-0 kernel drivers, memory scramblers, and hotkey response.
-3. **Low-Level Architecture Bento Grid**:
-   - Direct3D & Vulkan Invisible HUD
-   - Ring-0 Micro-Kernel Driver
-   - Dynamic Hardware UUID, MAC & SMBIOS Spoofer
-   - Multi-Display Virtual EDID Matrix
-4. **4-Tier Pricing Grid**:
-   - **Free** ($0): Community Sandbox
-   - **Pro** ($16/mo): Stealth Operator
-   - **Elite** ($36/mo): Undetected Powerhouse (Ring-0 Kernel Driver & Hardware Mask)
-   - **Ultra** ($79/mo): Enterprise Custom (Bespoke daily compiler builds & 1-on-1 Engineer line)
-   - Monthly / Annual toggle (Save 25%)
-   - Full 9-point side-by-side comparison matrix
-5. **Interactive License & Provisioning Modal**:
-   - Generates mock cryptographic license keys (`CPWR-ELT-XXXX-XXXX-XXXX`)
-   - 1-Click PowerShell / Bash install script
-   - Direct downloads for Windows (.exe) and macOS (.dmg)
-6. **Bespoke Animations & Audio**:
-   - Synthesized Web Audio API sound effects (no external audio files needed)
-   - Dynamic mouse-following spotlight glow
-   - Canvas confetti celebrations on plan selection
+- **Official Mascot**: The signature botanical flower wearing a street snapback cap.
+- **Acquisitions & Inquiries**: Telegram [`@capwerofficial`](https://t.me/capwerofficial)
+- **Direct Link**: [https://t.me/capwerofficial](https://t.me/capwerofficial)
 
 ---
 
