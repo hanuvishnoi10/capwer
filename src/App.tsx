@@ -7,13 +7,10 @@ import {
   ExternalLink,
   Volume2,
   VolumeX,
-  Shield,
-  Terminal,
-  ChevronRight,
   MonitorCheck,
   ClipboardPaste,
   PlayCircle,
-  Zap,
+  ChevronRight,
 } from 'lucide-react';
 import { toggleSound, isSoundEnabled, playBlip, playSuccess } from './utils/audio';
 
@@ -23,56 +20,50 @@ const STEPS = [
   {
     num: '01',
     icon: MonitorCheck,
-    title: 'OPEN CMD AS ADMINISTRATOR',
+    title: 'Open CMD as Administrator',
     body: (
       <>
-        Press{' '}
-        <kbd className="kbd-key">Win</kbd>
-        {' + '}
-        <kbd className="kbd-key">R</kbd>
-        {', type '}
-        <code className="text-slate-200 font-mono">cmd</code>
-        {', then '}
-        <strong className="text-slate-200">right-click → "Run as administrator"</strong>.
-        {' The title bar must say '}
-        <span className="font-mono text-emerald-400">Administrator: Command Prompt</span>.
+        Hit the <kbd className="kbd-key">Windows</kbd> key and search for{' '}
+        <code className="text-white font-mono">cmd</code>. When it appears in results,
+        right-click it and choose{' '}
+        <strong className="text-white font-semibold">Run as administrator</strong>.
+        The window title should read{' '}
+        <span className="font-mono text-white/70">Administrator: Command Prompt</span>.
       </>
     ),
   },
   {
     num: '02',
     icon: ClipboardPaste,
-    title: 'PASTE THE COMMAND',
+    title: 'Paste the Command',
     body: (
       <>
-        Copy the command block below. In the admin CMD window,{' '}
-        <strong className="text-slate-200">right-click → Paste</strong> (or press{' '}
-        <kbd className="kbd-key">Ctrl</kbd>
-        {' + '}
-        <kbd className="kbd-key">V</kbd>).
+        Copy the command below, then right-click inside the admin CMD window and
+        select <strong className="text-white font-semibold">Paste</strong>.
+        The full command will appear in one line — don't edit it.
       </>
     ),
   },
   {
     num: '03',
     icon: PlayCircle,
-    title: 'HIT ENTER & DONE',
+    title: 'Press Enter & Done',
     body: (
       <>
-        Press{' '}
-        <kbd className="kbd-key">Enter</kbd>. The script downloads Capwer, extracts it to your{' '}
-        <span className="font-mono text-emerald-400">Desktop\CAPWER</span> folder, and silently
-        configures Windows Defender exclusions — no extra clicks needed.
+        Press <kbd className="kbd-key">Enter</kbd>. The script downloads and
+        extracts Capwer to{' '}
+        <span className="font-mono text-white/70">Desktop\CAPWER</span>, then
+        silently adds Windows Defender exclusions. No further action needed.
       </>
     ),
   },
 ];
 
 const WHAT_HAPPENS = [
-  'Downloads capwer.zip directly to your Desktop',
-  'Extracts into Desktop\\CAPWER automatically',
-  'Adds Defender exclusion for the CAPWER folder',
-  'Adds Defender exclusion for capwer.exe process',
+  'Downloads capwer.zip to your Desktop',
+  'Extracts files into Desktop\\CAPWER',
+  'Adds Defender exclusion for the folder',
+  'Adds Defender exclusion for capwer.exe',
 ];
 
 export function App() {
@@ -107,196 +98,175 @@ export function App() {
   const handleSoundToggle = () => {
     const next = toggleSound();
     setSoundOn(next);
-    if (next) playBlip(880, 'sine', 0.05);
+    if (next) playBlip(880, 'sine', 0.04);
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-[#050608] text-slate-100 flex flex-col overflow-hidden selection:bg-emerald-500 selection:text-black">
+    <div className="relative min-h-screen w-full bg-[#080808] text-white flex flex-col overflow-hidden">
 
-      {/* ── GRID BACKGROUND ─────────────────────────── */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-25 pointer-events-none" />
+      {/* subtle grid */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.15] pointer-events-none" />
 
-      {/* ── MOUSE SPOTLIGHT ─────────────────────────── */}
+      {/* mouse vignette — barely visible, warm white */}
       <div
         className="pointer-events-none fixed inset-0 z-10 hidden md:block"
         style={{
-          background: `radial-gradient(650px circle at ${mousePos.x}px ${mousePos.y}px, rgba(16,185,129,0.04), transparent 75%)`,
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.025), transparent 70%)`,
         }}
       />
 
-      {/* ── BIG "CAPWER" BG TEXT ────────────────────── */}
+      {/* BIG CAPWER TEXT */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
         <span
-          className="text-[17vw] sm:text-[19vw] md:text-[21vw] font-black tracking-tighter uppercase leading-none text-transparent text-stroke-giant"
+          className="text-[17vw] sm:text-[19vw] md:text-[21vw] font-black uppercase leading-none text-stroke-giant"
           style={{ letterSpacing: '-0.06em' }}
         >
           CAPWER
         </span>
       </div>
 
-      {/* ════════════════════════════════════════════
-          HEADER
-      ════════════════════════════════════════════ */}
-      <header className="relative z-20 w-full px-6 py-5 sm:px-10 flex items-center justify-between border-b border-white/[0.04]">
+      {/* ─────── HEADER ─────── */}
+      <header className="relative z-20 w-full px-6 py-5 sm:px-10 flex items-center justify-between border-b border-white/[0.06]">
         <div className="flex items-center gap-2.5">
           <Logo size="sm" showText={false} interactive />
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold tracking-tight text-white text-sm">capwer</span>
-            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 uppercase tracking-widest font-semibold">
-              overlay
-            </span>
-          </div>
+          <span className="font-bold tracking-tight text-white text-sm">capwer</span>
+          <span className="text-[10px] font-mono text-white/40 border border-white/[0.12] px-1.5 py-0.5 rounded uppercase tracking-widest">
+            overlay
+          </span>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-slate-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>DIRECT TELEGRAM DISPATCH</span>
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-white/30">
+            <span className="h-1.5 w-1.5 rounded-full bg-white/40 animate-pulse" />
+            TELEGRAM DISPATCH
           </div>
           <button
             onClick={handleSoundToggle}
-            className="p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.06] text-slate-400 hover:text-white transition-all flex items-center gap-1.5 font-mono"
+            className="p-2 rounded-md bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/40 hover:text-white/80 transition-all flex items-center gap-1.5"
           >
             {soundOn
-              ? <Volume2 className="w-3.5 h-3.5 text-emerald-400" />
-              : <VolumeX className="w-3.5 h-3.5 text-slate-500" />}
-            <span className="text-[10px] hidden md:inline">{soundOn ? 'SFX' : 'MUTED'}</span>
+              ? <Volume2 className="w-3.5 h-3.5" />
+              : <VolumeX className="w-3.5 h-3.5" />}
+            <span className="text-[10px] font-mono hidden md:inline">{soundOn ? 'SFX' : 'MUTE'}</span>
           </button>
         </div>
       </header>
 
-      {/* ════════════════════════════════════════════
-          HERO — MASCOT + TELEGRAM CARD
-      ════════════════════════════════════════════ */}
-      <main className="relative z-20 flex flex-col items-center px-4 sm:px-6 py-14 text-center max-w-3xl mx-auto w-full">
+      {/* ─────── HERO ─────── */}
+      <main className="relative z-20 flex flex-col items-center px-4 sm:px-6 py-16 text-center max-w-2xl mx-auto w-full">
 
         {/* Mascot */}
-        <div className="mb-6 relative">
-          <div className="absolute -inset-4 bg-emerald-500/10 rounded-full blur-xl pointer-events-none" />
+        <div className="mb-7">
           <Logo size="hero" showText={false} interactive />
         </div>
 
-        {/* Status pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-[11px] font-mono text-slate-300 mb-6">
-          <Shield className="w-3.5 h-3.5 text-emerald-400" />
-          <span>TOOL OVERLAY • PRIVATE ACQUISITION</span>
+        {/* Label */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/[0.1] text-[11px] font-mono text-white/40 mb-6 tracking-widest uppercase">
+          Tool Overlay · Private Acquisition
         </div>
 
         {/* Headline */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-snug max-w-2xl">
-          If you want to buy this tool overlay,{' '}
-          <br className="hidden sm:inline" />
-          message on Telegram
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white leading-snug">
+          Want to buy this overlay?
+          <br />
+          Message us on Telegram.
         </h1>
-        <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-lg">
-          Direct inquiries, pricing, and setup tokens dispatched privately via our official handle.
+        <p className="mt-3 text-sm text-white/40 max-w-sm">
+          Pricing, licensing, and setup tokens are sent privately.
         </p>
 
         {/* Telegram card */}
-        <div className="mt-8 w-full max-w-md rounded-2xl border border-white/[0.1] bg-[#090b10]/80 backdrop-blur-xl p-5 shadow-2xl relative overflow-hidden group">
-          <div className="absolute -top-12 -right-12 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all duration-500 pointer-events-none" />
+        <div className="mt-8 w-full max-w-sm rounded-xl border border-white/[0.1] bg-white/[0.03] p-4">
 
           {/* Handle row */}
-          <div className="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-black/60 border border-white/[0.06] font-mono text-xs mb-3.5">
-            <div className="flex items-center gap-2.5 overflow-hidden text-left">
-              <div className="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center flex-shrink-0">
-                <Send className="w-4 h-4 text-sky-400 -translate-x-0.5 translate-y-0.5" />
+          <div className="flex items-center justify-between gap-3 p-3 rounded-lg bg-black/60 border border-white/[0.06] mb-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-md bg-white/[0.06] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+                <Send className="w-3.5 h-3.5 text-white/60 -translate-x-0.5 translate-y-0.5" />
               </div>
-              <div className="truncate">
-                <span className="text-[10px] text-slate-400 block uppercase tracking-wider">OFFICIAL TELEGRAM</span>
-                <span className="text-white font-bold text-sm tracking-wide select-all">{telegramHandle}</span>
+              <div className="text-left">
+                <span className="text-[10px] text-white/30 block uppercase tracking-wider font-mono">Telegram</span>
+                <span className="text-white font-mono text-sm select-all">{telegramHandle}</span>
               </div>
             </div>
 
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-xs font-mono text-slate-200 hover:text-white transition-all flex-shrink-0"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] text-[11px] font-mono text-white/60 hover:text-white transition-all flex-shrink-0"
             >
               {copied
-                ? <><Check className="w-3.5 h-3.5 text-emerald-400" /><span className="text-emerald-400 text-[11px]">Copied</span></>
-                : <><Copy className="w-3.5 h-3.5" /><span className="text-[11px]">Copy</span></>}
+                ? <><Check className="w-3.5 h-3.5 text-white" /><span>Copied</span></>
+                : <><Copy className="w-3.5 h-3.5" /><span>Copy</span></>}
             </button>
           </div>
 
-          {/* Telegram CTA */}
+          {/* CTA */}
           <a
             href={telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => playBlip(950, 'sine', 0.05)}
-            className="w-full py-3.5 px-5 rounded-xl bg-gradient-to-r from-sky-500 via-teal-400 to-emerald-400 text-slate-950 font-bold text-sm tracking-wide transition-all duration-300 hover:shadow-[0_0_30px_rgba(56,189,248,0.35)] hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+            onClick={() => playBlip(880, 'sine', 0.04)}
+            className="w-full py-3 px-5 rounded-lg bg-white text-black font-semibold text-sm tracking-wide transition-all hover:bg-white/90 active:scale-[0.99] flex items-center justify-center gap-2"
           >
             <Send className="w-4 h-4" />
-            <span>Open Telegram ({telegramHandle})</span>
-            <ExternalLink className="w-4 h-4 ml-1 opacity-80" />
+            <span>Open Telegram</span>
+            <ExternalLink className="w-3.5 h-3.5 opacity-60" />
           </a>
 
-          <div className="mt-3 text-center">
+          <div className="mt-2.5 text-center">
             <a
               href={telegramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] font-mono text-slate-400 hover:text-sky-400 transition-colors underline underline-offset-4"
+              className="text-[11px] font-mono text-white/25 hover:text-white/50 transition-colors"
             >
               {telegramUrl}
             </a>
           </div>
         </div>
-
-        {/* Micro footnote */}
-        <div className="mt-8 flex items-center gap-3 text-[11px] font-mono text-slate-400">
-          <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Kernel Ring-0 Overlay Architecture • Instant Private Delivery</span>
-        </div>
       </main>
 
-      {/* ════════════════════════════════════════════
-          HOW TO INSTALL SECTION
-      ════════════════════════════════════════════ */}
-      <section className="relative z-20 w-full px-4 sm:px-6 pb-20 pt-4">
+      {/* ─────── INSTALL SECTION ─────── */}
+      <section className="relative z-20 w-full px-4 sm:px-6 pb-20 pt-2">
 
-        {/* ── divider line with label ── */}
-        <div className="max-w-3xl mx-auto flex items-center gap-4 mb-12">
+        {/* Divider */}
+        <div className="max-w-2xl mx-auto flex items-center gap-4 mb-12">
           <div className="flex-1 h-px bg-white/[0.06]" />
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-[11px] font-mono text-slate-300 flex-shrink-0">
-            <MonitorCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>WINDOWS ONLY</span>
-          </div>
+          <span className="text-[11px] font-mono text-white/25 tracking-widest uppercase flex-shrink-0">
+            Windows Only
+          </span>
           <div className="flex-1 h-px bg-white/[0.06]" />
         </div>
 
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-2xl mx-auto">
 
-          {/* Heading */}
+          {/* Section heading */}
           <div className="text-center mb-10">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase">
-              HOW TO{' '}
-              <span className="text-emerald-400">INSTALL</span>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase">
+              How to Install
             </h2>
-            <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-lg mx-auto">
-              Get Capwer running on Windows in under 30 seconds.
-              Open CMD as admin, paste one command — that's it.
+            <p className="mt-3 text-sm text-white/40 max-w-md mx-auto">
+              Open CMD as admin, paste one command, press Enter.
+              Done in under 30 seconds.
             </p>
           </div>
 
-          {/* ── Step Cards ── */}
-          <div className="space-y-3">
+          {/* Steps */}
+          <div className="space-y-2">
             {STEPS.map(({ num, icon: Icon, title, body }) => (
               <div
                 key={num}
-                className="flex items-start gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl border border-white/[0.07] bg-[#090b10]/70 backdrop-blur-lg hover:border-white/[0.13] hover:bg-[#0c0f15]/80 transition-all duration-200 group"
+                className="flex items-start gap-4 p-5 rounded-xl border border-white/[0.07] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.12] transition-all duration-150"
               >
-                {/* Step number badge */}
-                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center font-mono text-sm font-bold text-emerald-400 group-hover:bg-emerald-500/15 transition-colors">
-                  {num}
+                <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.1] flex items-center justify-center">
+                  <span className="font-mono text-xs font-bold text-white/50">{num}</span>
                 </div>
-
                 <div className="text-left min-w-0">
-                  <h3 className="flex items-center gap-2 text-sm font-bold tracking-widest text-white uppercase mb-2">
-                    <Icon className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                  <h3 className="flex items-center gap-2 text-[13px] font-semibold text-white mb-1.5 tracking-wide">
+                    <Icon className="w-3.5 h-3.5 text-white/40 flex-shrink-0" />
                     {title}
                   </h3>
-                  <p className="text-[13px] sm:text-sm text-slate-400 leading-relaxed">
+                  <p className="text-[13px] text-white/45 leading-relaxed">
                     {body}
                   </p>
                 </div>
@@ -304,52 +274,49 @@ export function App() {
             ))}
           </div>
 
-          {/* ── CMD Terminal Block ── */}
-          <div className="mt-5 rounded-2xl border border-white/[0.1] bg-[#07090d] overflow-hidden shadow-2xl">
+          {/* CMD Terminal block */}
+          <div className="mt-4 rounded-xl border border-white/[0.08] bg-[#0d0d0d] overflow-hidden">
 
             {/* Title bar */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] bg-black/50">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                <span className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                <span className="w-3 h-3 rounded-full bg-[#28c840]" />
-                <span className="ml-3 text-[11px] font-mono text-slate-500 tracking-wide">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]/80" />
+                <span className="ml-3 text-[11px] font-mono text-white/25 tracking-wide">
                   cmd.exe — Administrator
                 </span>
               </div>
-
               <button
                 onClick={handleCmdCopy}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.12] border border-white/[0.08] text-[11px] font-mono text-slate-300 hover:text-white transition-all"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.08] text-[11px] font-mono text-white/50 hover:text-white transition-all"
               >
                 {cmdCopied
-                  ? <><Check className="w-3.5 h-3.5 text-emerald-400" /><span className="text-emerald-400">Copied!</span></>
+                  ? <><Check className="w-3.5 h-3.5" /><span>Copied!</span></>
                   : <><Copy className="w-3.5 h-3.5" /><span>Copy</span></>}
               </button>
             </div>
 
-            {/* Command body */}
-            <div className="p-4 sm:p-6">
+            {/* Command text */}
+            <div className="p-5 sm:p-6">
               <div className="flex items-start gap-3 font-mono text-[12px] sm:text-[13px] leading-relaxed">
-                <span className="text-slate-500 select-none pt-0.5 flex-shrink-0">C:\&gt;</span>
-                <code className="text-emerald-400 whitespace-pre-wrap break-all text-left">
+                <span className="text-white/20 select-none flex-shrink-0 pt-px">C:\&gt;</span>
+                <code className="text-[#4ade80] whitespace-pre-wrap break-all text-left">
                   {INSTALL_CMD}
                 </code>
               </div>
             </div>
           </div>
 
-          {/* ── What Happens Card ── */}
-          <div className="mt-4 rounded-2xl border border-white/[0.07] bg-[#090b10]/60 backdrop-blur-lg p-5 sm:p-6">
-            <h4 className="flex items-center gap-2.5 text-sm font-bold tracking-widest text-white uppercase mb-5">
-              <Zap className="w-4 h-4 text-emerald-400" />
-              WHAT HAPPENS WHEN YOU RUN THIS?
+          {/* What happens */}
+          <div className="mt-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-5">
+            <h4 className="text-[12px] font-mono font-semibold text-white/50 uppercase tracking-widest mb-4">
+              What happens when you run this
             </h4>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
               {WHAT_HAPPENS.map((line, i) => (
-                <div key={i} className="flex items-start gap-2.5 text-[13px] sm:text-sm text-slate-300">
-                  <ChevronRight className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <div key={i} className="flex items-start gap-2 text-[13px] text-white/50">
+                  <ChevronRight className="w-3.5 h-3.5 text-white/25 flex-shrink-0 mt-0.5" />
                   <span>{line}</span>
                 </div>
               ))}
@@ -358,26 +325,20 @@ export function App() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════
-          FOOTER
-      ════════════════════════════════════════════ */}
-      <footer className="relative z-20 w-full px-6 py-5 sm:px-10 border-t border-white/[0.04] text-[11px] font-mono text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span>CAPWER SYSTEMS</span>
-          <span>•</span>
-          <span>ALL RIGHTS RESERVED</span>
-        </div>
+      {/* ─────── FOOTER ─────── */}
+      <footer className="relative z-20 w-full px-6 py-5 sm:px-10 border-t border-white/[0.05] text-[11px] font-mono text-white/25 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <span>CAPWER SYSTEMS · ALL RIGHTS RESERVED</span>
         <div className="flex items-center gap-4">
           <a
             href={telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-400 hover:text-sky-400 transition-colors"
+            className="hover:text-white/60 transition-colors"
           >
             t.me/capwerofficial
           </a>
-          <span className="text-slate-700">•</span>
-          <span className="text-slate-400">ENCRYPTED DISPATCH</span>
+          <span className="text-white/10">·</span>
+          <span>ENCRYPTED DISPATCH</span>
         </div>
       </footer>
     </div>
